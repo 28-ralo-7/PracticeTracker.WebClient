@@ -33,7 +33,7 @@ export default function PracticePage() {
     }
 
     const companies = Array.from(new Set(groupPractice.students.map(st => st.company)));
-    console.log(companies)
+
     return (
         <div style={{width: "90%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3 overflow-auto"}>
             <div className={"card-body p-3 text-center overflow-auto"}>

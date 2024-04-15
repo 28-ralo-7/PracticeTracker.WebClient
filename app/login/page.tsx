@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import {ReactNotifications} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import Notification from "@/domain/Notification";
+import axios from "axios";
 export default function LoginPage() {
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -14,8 +15,8 @@ export default function LoginPage() {
         {
             Notification("Заполните все поля", "warning");
         }
-        else if (login != 'admin' && password != 'admin'){
-            Notification("Неверный логин или пароль", "danger");
+        else {
+            axios.post(`https://localhost:7242/Authorization/Authorize?login=${login}&password=${password}`);
         }
     }
 
