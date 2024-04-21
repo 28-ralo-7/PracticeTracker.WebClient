@@ -16,7 +16,6 @@ export default function LoginPage() {
             Notification("Заполните все поля", "warning");
         }
         else {
-            axios.post(`https://localhost:7242/Authorization/Authorize?login=${login}&password=${password}`);
         }
     }
 
