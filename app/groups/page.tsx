@@ -1,9 +1,12 @@
+'use client'
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../public/college_logo.png';
+import {useEffect, useState} from "react";
+import {GroupView} from "@/domain/groupView";
 
 export default function GroupPage() {
-
-    const groups = [
+    const [groups, setGroups] = useState<GroupView[]>([]);
+    const gr1 = [
             {id: "1", name: "400"},
         {id: "2", name: "401"},
         {id: "3", name: "402"},
@@ -65,6 +68,14 @@ export default function GroupPage() {
         {id: "59", name: "458"},
         {id: "60", name: "459"},
         ];
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    async function loadData(){
+        groupService.getGroupByPermission()
+    }
 
     return (
         <div className={"w-75 h-75 position-absolute top-50 start-50 translate-middle bg-white rounded-3 overflow-auto"}>

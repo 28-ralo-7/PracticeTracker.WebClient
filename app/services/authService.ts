@@ -1,10 +1,20 @@
 import axios from "axios";
-import {redirect} from "next/navigation";
+import {Result} from "@/domain/shared/Response";
 
 export class AuthService{
-    public static auhtByLoginAndPassword(login: string, password: string){
-        axios.post(`https://localhost:7242/Authorization/Authorize`, {login: login, password: password}).then(response => {
+    public static async authByLoginAndPassword(login: string, password: string) {
+        try {
+            let result = await axios.post(`http://localhost:5018/Auth/Auth`, null,{
+                params: {
+                    login: login,
+                    password: password
+                }
+            });
+            return result.data as Result;
+        }
+        catch {
+            return Result.EmptyFailed();
+        }
 
-        });
     }
 }

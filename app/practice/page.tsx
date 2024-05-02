@@ -9,26 +9,26 @@ export default function PracticePage() {
             name: '421'
         },
         students: [
-            {id: '1', name: 'Илья', grade: '5', company: {id: '1', name: "Google"}, contract: 'соглашение'},
-            {id: '2', name: 'Анна', grade: '', company: {id: '2', name: "Amazon"}, contract: 'соглашение'},
-            {id: '3', name: 'Максим', grade: '', company: {id: '3', name: "Microsoft"}, contract: 'соглашение'},
-            {id: '4', name: 'Екатерина', grade: '5', company: {id: '4', name: "Apple"}, contract: 'соглашение'},
-            {id: '5', name: 'Алексей', grade: '', company: {id: '5', name: "Facebook"}, contract: 'соглашение'},
-            {id: '6', name: 'Ольга', grade: '5', company: {id: '6', name: "Tesla"}, contract: 'соглашение'},
-            {id: '7', name: 'Дмитрий', grade: '5', company: {id: '7', name: "SpaceX"}, contract: 'соглашение'},
-            {id: '8', name: 'Мария', grade: '5', company: {id: '8', name: "Samsung"}, contract: 'соглашение'},
-            {id: '9', name: 'Артем', grade: '', company: {id: '9', name: "Netflix"}, contract: 'соглашение'},
-            {id: '10', name: 'Елена', grade: '3', company: {id: '10', name: "Uber"}, contract: 'соглашение'},
-            {id: '11', name: 'Владимир', grade: '4', company: {id: '11', name: "Airbnb"}, contract: 'соглашение'},
-            {id: '12', name: 'Наталья', grade: '4', company: {id: '12', name: "Twitter"}, contract: 'соглашение'},
-            {id: '13', name: 'Иван', grade: '3', company: {id: '13', name: "LinkedIn"}, contract: 'соглашение'},
-            {id: '14', name: 'Юлия', grade: '4', company: {id: '14', name: "Pinterest"}, contract: 'соглашение'},
-            {id: '15', name: 'Павел', grade: '3', company: {id: '15', name: "Snapchat"}, contract: 'соглашение'},
-            {id: '16', name: 'Светлана', grade: '5', company: {id: '16', name: "WhatsApp"}, contract: 'соглашение'},
-            {id: '17', name: 'Григорий', grade: '5', company: {id: '17', name: "Zoom"}, contract: 'соглашение'},
-            {id: '18', name: 'Татьяна', grade: '4', company: {id: '18', name: "Etsy"}, contract: 'соглашение'},
-            {id: '19', name: 'Сергей', grade: '3', company: {id: '19', name: "Spotify"}, contract: 'соглашение'},
-            {id: '20', name: 'Ангелина', grade: '3', company: {id: '20', name: "GitHub"}, contract: 'соглашение'},
+            {id: '1', name: 'Илья', grade: '5', company: {id: '1', name: "Google"}, contract: 'соглашение', report: "отчёт"},
+            {id: '2', name: 'Анна', grade: '', company: {id: '2', name: "Amazon"}, contract: 'соглашение', report: "отчёт"},
+            {id: '3', name: 'Максим', grade: '', company: {id: '3', name: "Microsoft"}, contract: 'соглашение', report: "отчёт"},
+            {id: '4', name: 'Екатерина', grade: '5', company: {id: '4', name: "Apple"}, contract: 'соглашение', report: "отчёт"},
+            {id: '5', name: 'Алексей', grade: '', company: {id: '5', name: "Facebook"}, contract: 'соглашение', report: "отчёт"},
+            {id: '6', name: 'Ольга', grade: '5', company: {id: '6', name: "Tesla"}, contract: 'соглашение', report: "отчёт"},
+            {id: '7', name: 'Дмитрий', grade: '5', company: {id: '7', name: "SpaceX"}, contract: 'соглашение', report: "отчёт"},
+            {id: '8', name: 'Мария', grade: '5', company: {id: '8', name: "Samsung"}, contract: 'соглашение', report: "отчёт"},
+            {id: '9', name: 'Артем', grade: '', company: {id: '9', name: "Netflix"}, contract: 'соглашение', report: "отчёт"},
+            {id: '10', name: 'Елена', grade: '3', company: {id: '10', name: "Uber"}, contract: 'соглашение', report: "отчёт"},
+            {id: '11', name: 'Владимир', grade: '4', company: {id: '11', name: "Airbnb"}, contract: 'соглашение', report: "отчёт"},
+            {id: '12', name: 'Наталья', grade: '4', company: {id: '12', name: "Twitter"}, contract: 'соглашение', report: "отчёт"},
+            {id: '13', name: 'Иван', grade: '3', company: {id: '13', name: "LinkedIn"}, contract: 'соглашение', report: "отчёт"},
+            {id: '14', name: 'Юлия', grade: '4', company: {id: '14', name: "Pinterest"}, contract: 'соглашение', report: "отчёт"},
+            {id: '15', name: 'Павел', grade: '3', company: {id: '15', name: "Snapchat"}, contract: 'соглашение', report: "отчёт"},
+            {id: '16', name: 'Светлана', grade: '5', company: {id: '16', name: "WhatsApp"}, contract: 'соглашение', report: "отчёт"},
+            {id: '17', name: 'Григорий', grade: '5', company: {id: '17', name: "Zoom"}, contract: 'соглашение', report: "отчёт"},
+            {id: '18', name: 'Татьяна', grade: '4', company: {id: '18', name: "Etsy"}, contract: 'соглашение', report: "отчёт"},
+            {id: '19', name: 'Сергей', grade: '3', company: {id: '19', name: "Spotify"}, contract: 'соглашение', report: "отчёт"},
+            {id: '20', name: 'Ангелина', grade: '3', company: {id: '20', name: "GitHub"}, contract: 'соглашение', report: "отчёт"},
         ],
     }
 
@@ -50,6 +50,7 @@ export default function PracticePage() {
                             <th>Оценка</th>
                             <th>Предприятие</th>
                             <th>Договор</th>
+                            <th>Отчёт</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,11 @@ export default function PracticePage() {
                                 <td>
                                     <button className="btn btn-primary">
                                         {student.contract}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button className="btn btn-primary">
+                                        {student.report}
                                     </button>
                                 </td>
                             </tr>

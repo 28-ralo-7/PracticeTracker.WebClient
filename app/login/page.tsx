@@ -4,18 +4,30 @@ import '../../public/college_logo.png';
 import React, {useState} from "react";
 import {ReactNotifications} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import Notification from "@/domain/Notification";
-import axios from "axios";
+import Notification from "@/domain/shared/Notification";
+import {AuthService} from "@/app/services/authService";
+import {Result} from "@/domain/shared/Response";
+import { useRouter } from 'next/navigation';
+
 export default function LoginPage() {
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const router = useRouter();
 
-    function handleOnClinkAuth(){
+    async function handleOnClinkAuth(){
         if (login.trim() == '' || password.trim() == '')
         {
             Notification("Заполните все поля", "warning");
         }
         else {
+            const response: Result = await AuthService.authByLoginAndPassword(login, password);
+
+            if (response.isSuccess){
+                router.push(response.data);
+            }
+            else{
+                response.errors.map(error => Notification(error, "danger"))
+            }
         }
     }
 
