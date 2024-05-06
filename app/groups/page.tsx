@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../public/college_logo.png';
 import {useEffect, useState} from "react";
 import {GroupView} from "@/domain/groupView";
+import {GroupService} from "@/app/services/groupService";
 
 export default function GroupPage() {
     const [groups, setGroups] = useState<GroupView[]>([]);
@@ -74,7 +75,9 @@ export default function GroupPage() {
     }, []);
 
     async function loadData(){
-        groupService.getGroupByPermission()
+        await GroupService.getGroupByPermission().then(response =>
+            setGroups(response.data)
+        );
     }
 
     return (
@@ -82,10 +85,10 @@ export default function GroupPage() {
             <div className={"card-body p-3 text-center"}>
                 <h2 style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>Группы</h2>
                 <div className="row d-flex justify-content-center">
-                    {groups.map((group, index) => (
+                    {groups?.map((group, index) => (
                         index % 10 === 0 && (
                             <div key={index} className="col-4 mb-5">
-                                {groups.slice(index, index + 10).map(group => (
+                                {groups?.slice(index, index + 10).map(group => (
                                     <a className="d-block fs-3 text-black btn btn-primary m-1 text-white" key={group.id} href={`/practice?groupid=${group.id}`}>{group.name}</a>
                                 ))}
                             </div>
