@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Result} from "@/domain/shared/Response";
+import {Result} from "@/domain/shared/response";
 
 export class AuthService{
     public static async authByLoginAndPassword(login: string, password: string) {
@@ -8,7 +8,8 @@ export class AuthService{
                 params: {
                     login: login,
                     password: password
-                }
+                },
+                withCredentials: true
             });
             return result.data as Result;
         }

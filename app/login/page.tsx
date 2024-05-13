@@ -4,9 +4,9 @@ import '../../public/college_logo.png';
 import React, {useState} from "react";
 import {ReactNotifications} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import Notification from "@/domain/shared/Notification";
+import Notification from "@/domain/shared/notification";
 import {AuthService} from "@/app/services/authService";
-import {Result} from "@/domain/shared/Response";
+import {Result} from "@/domain/shared/response";
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {

@@ -1,6 +1,13 @@
+'use client'
 import 'bootstrap/dist/css/bootstrap.css';
-export default function PracticePage() {
+import React, {useEffect, useState} from "react";
+import {PracticeService} from "@/app/services/practiceService";
+import Notification from "@/domain/shared/notification";
+import {PracticeLogView} from "@/domain/practice/practiceLogView";
+import {ReactNotifications} from "react-notifications-component";
 
+export default function PracticePage() {
+    const practiceid = new URLSearchParams(window.location.search).get('practiceid')
     const groupPractice = {
         id: '1',
         name: 'ПП01 Разработка программного обеспечения',
@@ -32,14 +39,32 @@ export default function PracticePage() {
         ],
     }
 
+    const [practice, setPractice] = useState<PracticeLogView>(PracticeLogView.Empty);
     const companies = Array.from(new Set(groupPractice.students.map(st => st.company)));
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    async function loadData(){
+        const result = await PracticeService.getPracticeLogByPracticeId(practiceid as string);
+
+        if (result.isSuccess){
+            setPractice(result.data);
+        }
+        else{
+            result.errors.map(error => Notification(error, "danger"))
+        }
+    }
+
 
     return (
         <div style={{width: "90%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3 overflow-auto"}>
+            <ReactNotifications />
             <div className={"card-body p-3 text-center overflow-auto"}>
                 <div className="m-3 row">
-                    <button className="btn btn-primary col-1 ">Назад</button>
-                    <h2 className="col-11" style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>Группа: {groupPractice.group.name} - {groupPractice.name}</h2>
+                    <button onClick={() => console.log(practice)} className="btn btn-primary col-1 ">Назад</button>
+                    <h2 className="col-11" style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>Группа: {practice.group.label} - {practice.name}</h2>
                 </div>
 
                 <table className="table table-sm table-bordered table-scroll table-striped">
@@ -55,12 +80,13 @@ export default function PracticePage() {
                     </thead>
                     <tbody>
                         {
-                            groupPractice.students.map((student, index) =>
+                            practice.logItems.map((student, index) =>
                             <tr key={student.id}>
                                 <td>{index+1}</td>
                                 <td>{student.name}</td>
                                 <td className="">
-                                    <select className="form-select align-items-center" defaultValue={student.grade ?? null}>
+                                    <select className="form-select align-items-center" defaultValue={student.grade ?? 0}>
+                                        <option></option>
                                         <option>2</option>
                                         <option>3</option>
                                         <option>4</option>
@@ -68,9 +94,9 @@ export default function PracticePage() {
                                     </select>
                                 </td>
                                 <td>
-                                    <select className="form-select align-items-center" defaultValue={student.company.id}>
-                                        {companies.map(company =>
-                                            <option key={company.id} value={company.id}>{company.name}</option>
+                                    <select className="form-select align-items-center" defaultValue={student.company?.value}>
+                                        {practice.logItems.map(x => x.company).map(company =>
+                                            <option key={company?.value} value={company?.value}>{company?.label}</option>
                                         )}
                                     </select>
                                 </td>
