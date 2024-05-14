@@ -16,6 +16,20 @@ export class AuthService{
         catch {
             return Result.EmptyFailed();
         }
+    }
 
+    public static async checkAuthUserPermission(){
+        try {
+            let result = await axios.get(`http://localhost:5018/Auth/CheckAuthAndPermission`,
+        { withCredentials: true })
+            return result.data as Result;
+        }
+        catch {
+            return Result.EmptyFailed();
+        }
+    }
+
+    public static async logOn(){
+        await axios.post(`http://localhost:5018/Auth/LogOn`, {},{ withCredentials: true })
     }
 }

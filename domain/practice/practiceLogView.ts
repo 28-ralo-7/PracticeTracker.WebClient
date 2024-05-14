@@ -5,11 +5,12 @@ export class PracticeLogView {
     constructor(
         public id: string,
         public name: string,
+        public period: string,
         public group: Item,
         public logItems: PracticeLogItemView[]
     ) {}
 
     public static Empty(){
-        return new PracticeLogView("", "", Item.Empty(), []);
+        return new PracticeLogView("", "", "", Item.Empty(), []);
     }
 }
