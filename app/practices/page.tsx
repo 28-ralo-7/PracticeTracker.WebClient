@@ -6,7 +6,6 @@ import {PracticeService} from "@/app/services/practiceService";
 import Notification from "@/domain/shared/notification";
 import {Item} from "@/domain/shared/item";
 import {ReactNotifications} from "react-notifications-component";
-import {AuthService} from "@/app/services/authService";
 import {useRouter} from "next/navigation";
 
 export default function PracticesPage() {
@@ -28,18 +27,12 @@ export default function PracticesPage() {
         }
     }
 
-    async function logOn(){
-        await AuthService.logOn();
-        router.replace("/login");
-    }
-
     return (
         <div style={{width: "95%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3"}>
             <ReactNotifications />
             <div className={"card-body p-3 text-center position-relative"}>
                 <div className="m-3 w-100">
                     <h2 style={{top: 0, backgroundColor: 'white' }} className="m-3">Практики</h2>
-                    <button onClick={logOn} className="btn btn-primary" style={{height: "50px",position: "absolute", top: "20px", right: "20px"}}>Выйти</button>
                 </div>
 
                 <div className="row d-flex justify-content-center">
@@ -47,7 +40,7 @@ export default function PracticesPage() {
                         index % 10 === 0 && (
                             <div key={index} className="col-4 mb-5">
                                 {practices?.slice(index, index + 10).map(practice => (
-                                    <a className="d-block fs-3 text-black btn btn-primary m-1 text-white" key={practice.value} href={`/practice?practiceid=${practice.value}`}>{practice.label}</a>
+                                    <a className="d-block fs-3 text-black btn btn-primary m-1 text-white" key={practice.value} href={`/practices/practice?practiceid=${practice.value}`}>{practice.label}</a>
                                 ))}
                             </div>
                         )
