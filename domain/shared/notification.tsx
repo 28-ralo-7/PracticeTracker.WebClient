@@ -15,8 +15,8 @@ export default function Notification(message: string, type: NOTIFICATION_TYPE) {
         }
     }
 
-    return (
-            Store.addNotification({
+    const notification = () => {
+        Store.addNotification({
             title: getTitle(),
             message: message,
             type: type!,
@@ -25,9 +25,10 @@ export default function Notification(message: string, type: NOTIFICATION_TYPE) {
             animationIn: ["animate__animated", "animate__fadeIn"],
             animationOut: ["animate__animated", "animate__fadeOut"],
             dismiss: {
-            duration: 5000,
-            onScreen: true
-        }
-        })
-    );
+                duration: 5000,
+                onScreen: true
+            }
+    })}
+
+    return notification();
 }

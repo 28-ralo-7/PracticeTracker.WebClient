@@ -6,9 +6,7 @@ import Notification from "@/domain/shared/notification";
 import {Item} from "@/domain/shared/item";
 import {CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle} from "@coreui/react";
 import {UserBlank} from "@/domain/user/userBlank";
-import {PracticeService} from "@/app/services/practiceService";
-import {PracticeLogView} from "@/domain/practice/practiceLogView";
-import {ReactNotifications} from "react-notifications-component";
+import {NOTIFICATION_TYPE, ReactNotifications, Store} from "react-notifications-component";
 
 export default function UserSettingsPage() {
     const [users, setUsers] = useState<UserSettingView[]>([]);
@@ -139,7 +137,6 @@ export default function UserSettingsPage() {
         if (result.isSuccess){
             loadData();
             closeEditUserModal();
-            Notification("Пользователь успешно сохранен", 'success');
         }
         else{
             result.errors.map(error => Notification(error, "danger"))
@@ -172,14 +169,20 @@ export default function UserSettingsPage() {
 
     return (
         <div className="mt-2">
-            <ReactNotifications />
             <div className="m-3 w-100 justify-content-evenly position-sticky">
                 <h2 style={{ position: 'sticky', top: 0, backgroundColor: 'white'}}>Пользователи</h2>
                 <button className="btn btn-primary position-absolute"
-                        style={{height: "50px", width: "100px", top: 0, right: 20}}
+                        style={{
+                            height: "50px",
+                            width: "50px",
+                            top: 0,
+                            right: 20,
+                            fontSize: 'xx-large',
+                            lineHeight: '20px'
+                        }}
                         onClick={handleOnClickAddButton}
                 >
-                    Добавить
+                    +
                 </button>
             </div>
             <div className=" row d-flex align-items-center">
@@ -230,10 +233,10 @@ export default function UserSettingsPage() {
                                 <td>{user.group?.label ?? "-"}</td>
                                 <td>
                                     <button className="btn btn-primary mx-1" onClick={() => handleOnClickEditButton(user)}>
-                                        Редактировать
+                                        🖊
                                     </button>
                                     <button className="btn btn-danger mx-1" onClick={() => handleOnClickRemoveButton(user.id)}>
-                                        Удалить
+                                        🗑
                                     </button>
                                 </td>
                             </tr>
@@ -316,9 +319,6 @@ export default function UserSettingsPage() {
                     <CButton onClick={saveUser} color="primary">Сохранить</CButton>
                 </CModalFooter>
             </CModal>
-
-
-
             <CModal visible={isOpenRemoveUserModal}
                     onClose={closeRemoveUserModal}>
                 <CModalHeader>

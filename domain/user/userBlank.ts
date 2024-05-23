@@ -14,7 +14,7 @@ export class UserBlank {
     ) {}
 
     public static Empty(){
-        return new UserBlank(null, "", "", null, "", "", "", null);
+        return new UserBlank(null, "", "", null, "", "", "1", null);
     }
 
     public static ConvertFromUserSettingView(user: UserSettingView)
