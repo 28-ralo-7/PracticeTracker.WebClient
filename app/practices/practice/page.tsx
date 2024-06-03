@@ -50,7 +50,6 @@ export default function PracticePage() {
     }
 
     function getStatistic() {
-        debugger
         const companiesStatisticTemp: Item[] = [];
 
         for (let i = 0; i < companies.length; i++){

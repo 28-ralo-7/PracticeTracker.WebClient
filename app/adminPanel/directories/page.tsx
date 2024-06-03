@@ -171,13 +171,17 @@ export default function DirectoriesPage() {
 
     async function removePractice(id: string){
         const result = await DirectoriesService.removePractice(id);
+        loadData();
     }
 
     async function removeGroup(id: string){
         const result = await DirectoriesService.removeGroup(id);
+        loadData();
     }
+
     async function removeCompany(id: string){
         const result = await DirectoriesService.removeCompany(id);
+        loadData();
     }
 
     return (

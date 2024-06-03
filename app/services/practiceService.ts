@@ -13,12 +13,34 @@ export class PracticeService {
         }
     }
 
+    public static async getPracticeSchedules() {
+        try {
+            let result = await axios.get(`http://localhost:5018/AdminPanel/GetPracticeSchedules`, {withCredentials: true});
+
+            return result.data as Result;
+        }
+        catch {
+            return Result.EmptyFailed();
+        }
+    }
+
     public static async getPracticeLogByPracticeId(practiceId: string) {
         try {
             let result = await axios.get(`http://localhost:5018/Practice/GetPracticeLogByPracticeId?practiceId=${practiceId}`, {
                     withCredentials: true
                 }
             );
+
+            return result.data as Result;
+        }
+        catch {
+            return Result.EmptyFailed();
+        }
+    }
+
+    public static async getOptions() {
+        try {
+            let result = await axios.get(`http://localhost:5018/AdminPanel/GetOptionsForPracticeSchedule`, {withCredentials: true});
 
             return result.data as Result;
         }
