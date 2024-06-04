@@ -96,7 +96,7 @@ export default function PracticeScheduleSettingsPage() {
 		}));
 	}
 
-	async function saveSchedule(){debugger
+	async function saveSchedule(){
 		let scheduleForSave = selectedSchedule;
 
 		scheduleForSave.dateStart = selectedScheduleDateStart;
@@ -125,7 +125,7 @@ export default function PracticeScheduleSettingsPage() {
 
 	async function removeSchedule(){
 		const result = await PracticeService.removeSchedule(selectedScheduleId!);
-debugger
+
 		if (result.isSuccess){
 			loadData();
 			closeRemoveModal();
@@ -204,8 +204,8 @@ debugger
 						<div className="d-flex">
 							<div className="mb-3 mx-2 w-50">
 								<label className="form-label">Практика</label>
-								<select className="form-select" value={selectedSchedule?.practiceId || practiceOptions[0]?.value}
-										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'roleId')}>
+								<select className="form-select" value={selectedSchedule?.practiceId}
+										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'practiceId')}>
 									{
 										practiceOptions?.map(practice =>
 											<option key={practice?.value} value={practice?.value}>{practice?.label}</option>)
@@ -214,18 +214,19 @@ debugger
 							</div>
 							<div className="mb-3 mx-2 w-50">
 								<label className="form-label">Руководитель практики</label>
-								<select className="form-select" value={selectedSchedule?.practiceLeadId || practiceLeadOptions[0]?.value}
-										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'groupId')}>
+								<select className="form-select" value={selectedSchedule?.practiceLeadId}
+										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'practiceLeadId')}>
 									{
 										practiceLeadOptions?.map(lead =>
-											<option key={lead?.value} value={lead?.value}>{lead?.label}</option>)
+											<option key={lead?.value} value={lead?.value}>{lead?.label}</option>
+										)
 									}
 								</select>
 							</div>
 							<div className="mb-3 mx-2 w-50">
 								<label className="form-label">Группа</label>
-								<select className="form-select" value={selectedSchedule?.groupId || groupOptions[0]?.value}
-										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'practiceLeadId')}>
+								<select className="form-select" value={selectedSchedule?.groupId} disabled={selectedSchedule.id != null}
+										onChange={(e) => changeSelectedScheduleProperty(e.target.value, 'groupId')}>
 									{
 										groupOptions?.map(group =>
 											<option key={group?.value} value={group?.value}>{group?.label}</option>)

@@ -51,6 +51,17 @@ export class PracticeService {
 		}
 	}
 
+	public static async getCompaniesOptions() {
+		try {
+			let result = await axios.get(`http://localhost:5018/Practice/GetCompanies`, {withCredentials: true});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
 	public static async saveSchedule(blank: PracticeScheduleBlank) {
 		try {
 			let result = await axios.post(`http://localhost:5018/AdminPanel/SaveSchedule`,

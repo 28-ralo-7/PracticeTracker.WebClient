@@ -9,7 +9,6 @@ import {useRouter} from "next/navigation";
 import {Item} from "@/domain/shared/item";
 import {CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle} from "@coreui/react";
 
-
 export default function PracticePage() {
     const practiceid = new URLSearchParams(window.location.search).get('practiceid')
     const router = useRouter();
@@ -21,20 +20,26 @@ export default function PracticePage() {
 
     useEffect(() => {
         loadData();
+        getOptions();
     }, []);
+
+    async function getOptions(){
+        const result = await PracticeService.getCompaniesOptions();
+
+        if (result.isSuccess){
+            setCompanies(result.data)
+        }
+        else
+        {
+            result.errors.map(error => Notification(error, 'danger'))
+        }
+    }
 
     async function loadData(){
         const result = await PracticeService.getPracticeLogByPracticeId(practiceid as string);
 
         if (result.isSuccess){
             setPractice(result.data);
-
-            const companiesTemp = (result.data as PracticeLogView).logItems.map(x => x.company);
-            const uniqueCompanies = companiesTemp.filter((item, index) =>
-                companiesTemp.findIndex(x => x?.value === item?.value) === index
-            );
-
-            setCompanies(uniqueCompanies as Item[]);
         }
         else{
             result.errors.map(error => Notification(error, "danger"))
@@ -51,11 +56,11 @@ export default function PracticePage() {
 
     function getStatistic() {
         const companiesStatisticTemp: Item[] = [];
-
+debugger;
         for (let i = 0; i < companies.length; i++){
-            let count = (practice.logItems.filter(log => log.company?.value == companies[i].value)).length;
+            let count = (practice.logItems.filter(log => log.company?.value == companies[i]?.value)).length;
 
-            companiesStatisticTemp.push({label: companies[i].label, value: count.toString()});
+            companiesStatisticTemp.push({label: companies[i]?.label, value: count.toString()});
         }
         setCompaniesStatistic(companiesStatisticTemp);
         openModal();
@@ -90,19 +95,20 @@ export default function PracticePage() {
                             {
                                 practice.logItems.map((student, index) =>
                                 <tr key={student.id}>
-                                    <td>{index+1}</td>
-                                    <td>{student.name}</td>
-                                    <td className="">
+                                    <td width={1}>{index+1}</td>
+                                    <td width={500}>{student.name}</td>
+                                    <td width={100} className="">
                                         <select className="form-select align-items-center" defaultValue={student.grade ?? 0}>
-                                            <option disabled={true}></option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option key={0} defaultChecked={student.grade == null}></option>
+                                            <option key={2} >2</option>
+                                            <option key={3} >3</option>
+                                            <option key={4} >4</option>
+                                            <option key={5} >5</option>
                                         </select>
                                     </td>
-                                    <td>
+                                    <td width={300}>
                                         <select className="form-select align-items-center" defaultValue={student.company?.value}>
+                                            <option key={0} defaultChecked={student.company == null}></option>
                                             {companies.map(company =>
                                                 <option key={company?.value} value={company?.value}>{company?.label}</option>
                                             )}
@@ -110,12 +116,12 @@ export default function PracticePage() {
                                     </td>
                                     <td>
                                         <button className="btn btn-primary">
-                                            {student.contract}
+                                            {student.contract ?? "Пусто"}
                                         </button>
                                     </td>
                                     <td>
                                         <button className="btn btn-primary">
-                                            {student.report}
+                                            {student.report ?? "Пусто"}
                                         </button>
                                     </td>
                                 </tr>
@@ -131,14 +137,23 @@ export default function PracticePage() {
                     <CModalTitle>Статистика по компаниям</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                    <div>
-                        {companiesStatistic.map(company =>
-                            <div key={company.label}>{company.label}: {company.value} студент</div>
-                        )}
-                    </div>
+                    {
+                        companiesStatistic.map(cs => cs.label != '0').length > 0 &&
+                        <div>
+                            {companiesStatistic.map(company =>
+                                <div key={company.label}>{company.label}: {company.value} студент</div>
+                            )}
+                        </div>
+                    }
+                    {
+                        companiesStatistic.length == 0 &&
+                        <div>
+                            Нет ни одного предприятия
+                        </div>
+                    }
                 </CModalBody>
                 <CModalFooter>
-                    <CButton onClick={closeModal} color="primary">Закрыть</CButton>
+                    <CButton onClick={() => console.log(companiesStatistic)} color="primary">Закрыть</CButton>
                 </CModalFooter>
             </CModal>
         </div>
