@@ -6,8 +6,8 @@ import {AuthService} from "@/app/services/authService";
 export default function PracticeLayout({children, }: Readonly<{children: React.ReactNode;}>) {
     const router = useRouter();
 
-    async function logOn(){
-        await AuthService.logOn();
+    async function logOut(){
+        await AuthService.logOut();
         router.replace("/login");
     }
 
@@ -16,7 +16,7 @@ export default function PracticeLayout({children, }: Readonly<{children: React.R
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark z-3">
                 <div className="container-fluid">
                     <div className="navbar-brand me-auto">Колледж "Коломна"</div>
-                    <button className="btn btn-primary ms-auto" onClick={logOn}>Выйти</button>
+                    <button className="btn btn-primary ms-auto" onClick={logOut}>Выйти</button>
                 </div>
             </nav>
 

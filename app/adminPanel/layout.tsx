@@ -7,8 +7,8 @@ import {useRouter} from "next/navigation";
 export default function AdminLayout({children, }: Readonly<{children: React.ReactNode;}>) {
     const router = useRouter();
 
-    async function logOn(){
-        await AuthService.logOn();
+    async function logOut(){
+        await AuthService.logOut();
         router.replace("/login");
     }
 
@@ -29,7 +29,7 @@ export default function AdminLayout({children, }: Readonly<{children: React.Reac
                                 <a className="nav-link" href="directories">Справочники</a>
                             </li>
                         </ul>
-                        <button className="d-flex btn btn-primary" onClick={logOn}>Выйти</button>
+                        <button className="d-flex btn btn-primary" onClick={logOut}>Выйти</button>
                     </div>
                 </div>
             </nav>

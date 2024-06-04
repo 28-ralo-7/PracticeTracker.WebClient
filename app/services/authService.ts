@@ -29,7 +29,7 @@ export class AuthService{
         }
     }
 
-    public static async logOn(){
-        await axios.post(`http://localhost:5018/Auth/LogOn`, {},{ withCredentials: true })
+    public static async logOut(){
+        await axios.post(`http://localhost:5018/Auth/LogOut`, {},{ withCredentials: true })
     }
 }
