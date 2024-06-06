@@ -14,7 +14,7 @@ export default function AdminLayout({children, }: Readonly<{children: React.Reac
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark z-3">
+            <nav className="navbar navbar-expand navbar-dark bg-dark z-3">
                 <div className="container-fluid">
                     <div className="navbar-brand">Кабинет администратора</div>
                     <div className="collapse navbar-collapse" id="navbarScroll">

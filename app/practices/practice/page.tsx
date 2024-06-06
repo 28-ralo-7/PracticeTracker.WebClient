@@ -56,7 +56,7 @@ export default function PracticePage() {
 
     function getStatistic() {
         const companiesStatisticTemp: Item[] = [];
-debugger;
+
         for (let i = 0; i < companies.length; i++){
             let count = (practice.logItems.filter(log => log.company?.value == companies[i]?.value)).length;
 
@@ -66,17 +66,28 @@ debugger;
         openModal();
     }
 
+    async function handleOnChangeStudentGrade(studentId: string, grade: string){
+        await PracticeService.savePracticeLogGrade(studentId, grade).then(response =>
+            loadData()
+        );
+    }
+
+    async function handleOnBlurCompanyInput(studentId: string, value: string){
+        await PracticeService.savePracticeLogCompany(studentId, value).then(response =>
+            loadData()
+        );
+    }
+
     return (
         <div style={{width: "95%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3 pt-3"}>
             <ReactNotifications />
             <div className={"card-body p-3 text-center w-100 h-100"}>
                 <div className="m-3 row w-100 justify-content-evenly position-sticky">
-                    <button onClick={() => router.back()} className="btn btn-primary col-1" style={{height: "50px"}}>Назад</button>
+                    <button onClick={() => router.back()} className="btn btn-primary col-1" style={{height: "50px", minWidth:"100px"}}>Назад</button>
 
                     <h2 className="col-7" style={{ position: 'sticky', top: 0, backgroundColor: 'white' }}>Группа: {practice.group.label} - {practice.name}<br/>{practice.period}</h2>
 
-                    <button onClick={() => getStatistic()} className="btn btn-primary col-1" style={{height: "50px"}}>Статистика</button>
-                    <button onClick={() => console.log(practice)} className="btn btn-primary mx-1 col-1" style={{height: "50px"}}>Сохранить</button>
+                    <button onClick={() => getStatistic()} className="btn btn-primary col-1" style={{height: "50px", minWidth:"100px"}}>Статистика</button>
                 </div>
 
                 <div className="overflow-y-scroll overflow-x-hidden" style={{height: "700px"}}>
@@ -98,7 +109,9 @@ debugger;
                                     <td width={1}>{index+1}</td>
                                     <td width={500}>{student.name}</td>
                                     <td width={100} className="">
-                                        <select className="form-select align-items-center" defaultValue={student.grade ?? 0}>
+                                        <select className="form-select align-items-center"
+                                                onChange={(e) => handleOnChangeStudentGrade(student.id, e.target.value)}
+                                                defaultValue={student.grade ?? 0}>
                                             <option key={0} defaultChecked={student.grade == null}></option>
                                             <option key={2} >2</option>
                                             <option key={3} >3</option>
@@ -107,12 +120,16 @@ debugger;
                                         </select>
                                     </td>
                                     <td width={300}>
-                                        <select className="form-select align-items-center" defaultValue={student.company?.value}>
+                                        <input defaultValue={student.company?.label}
+                                               list="opts"
+                                               onBlur={(e) => handleOnBlurCompanyInput(student.id, e.target.value)}
+                                               className="form-select align-items-center"/>
+                                        <datalist id="opts">
                                             <option key={0} defaultChecked={student.company == null}></option>
                                             {companies.map(company =>
-                                                <option key={company?.value} value={company?.value}>{company?.label}</option>
+                                                <option key={company?.value}>{company?.label}</option>
                                             )}
-                                        </select>
+                                        </datalist>
                                     </td>
                                     <td>
                                         <button className="btn btn-primary">
@@ -153,7 +170,7 @@ debugger;
                     }
                 </CModalBody>
                 <CModalFooter>
-                    <CButton onClick={() => console.log(companiesStatistic)} color="primary">Закрыть</CButton>
+                    <CButton onClick={closeModal} color="primary">Закрыть</CButton>
                 </CModalFooter>
             </CModal>
         </div>

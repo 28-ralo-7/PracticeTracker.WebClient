@@ -75,6 +75,45 @@ export class PracticeService {
 		}
 	}
 
+	public static async savePracticeLogGrade(logId: string, grade: string) {
+		debugger
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/SavePracticeLogGrade`,
+				null,
+				{
+					params:{
+						logId: logId,
+						grade: grade
+					},
+					withCredentials: true
+				});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
+	public static async savePracticeLogCompany(logId: string, companyName: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/SavePracticeLogCompany`,
+				null,
+				{
+					params:{
+						logId: logId,
+						companyName: companyName
+					},
+					withCredentials: true
+				});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
 	public static async removeSchedule(scheduleId: string) {
 		try {
 			let result = await axios.post(`http://localhost:5018/AdminPanel/RemoveSchedule`,null,{
