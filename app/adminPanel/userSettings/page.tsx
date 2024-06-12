@@ -176,7 +176,7 @@ export default function UserSettingsPage() {
 	}
 
 	return (
-		<div className="mt-2">
+		<div className="mt-2 w-100 h-100">
 			<ReactNotifications/>
 			<div className="m-3 w-100 justify-content-evenly position-sticky">
 				<h2 style={{ position: 'sticky', top: 0, backgroundColor: 'white'}}>Пользователи</h2>
@@ -218,7 +218,7 @@ export default function UserSettingsPage() {
 					</select>
 				</div>
 			</div>
-			<div className="overflow-y-scroll overflow-x-hidden  mt-4" style={{height: "700px"}}>
+			<div className="overflow-y-scroll overflow-x-hidden  mt-4" style={{height: "500px"}}>
 				<table className="table table-hover table-bordered table-striped">
 					<thead>
 					<tr>

@@ -185,7 +185,7 @@ export default function DirectoriesPage() {
     }
 
     return (
-        <div className="row overflow-y-scroll overflow-x-hidden">
+        <div className="row">
             <ReactNotifications />
             <div className="col">
                 <div className="m-3 w-100 justify-content-evenly position-sticky">
@@ -206,7 +206,7 @@ export default function DirectoriesPage() {
                     </button>
                 </div>
                 <div className="overflow-y-scroll overflow-x-hidden"
-                     style={{height: "750px"}}>
+                     style={{height: "500px"}}>
                     <table className="table table-hover table-bordered text-wrap">
                         <thead>
                             <tr>

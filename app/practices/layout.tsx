@@ -12,7 +12,7 @@ export default function PracticeLayout({children, }: Readonly<{children: React.R
     }
 
     return (
-        <div>
+        <div style={{height: "100%", width: "100%"}}>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark z-3">
                 <div className="container-fluid">
                     <div className="navbar-brand me-auto">Колледж "Коломна"</div>

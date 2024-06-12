@@ -13,7 +13,7 @@ export default function AdminLayout({children, }: Readonly<{children: React.Reac
     }
 
     return (
-        <div>
+        <div className="overflow-hidden">
             <nav className="navbar navbar-expand navbar-dark bg-dark z-3">
                 <div className="container-fluid">
                     <div className="navbar-brand">Кабинет администратора</div>
@@ -34,7 +34,7 @@ export default function AdminLayout({children, }: Readonly<{children: React.Reac
                 </div>
             </nav>
 
-            <div style={{width: "95%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3 pt-3"}>
+                <div style={{width: "95%", height: "95%"}} className={"position-absolute top-50 start-50 translate-middle bg-white rounded-3 pt-3"}>
                 <div className={"card-body p-3 text-center w-100 h-100"}>
                     {children}
                 </div>

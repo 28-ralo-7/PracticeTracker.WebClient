@@ -139,7 +139,7 @@ export default function PracticePage() {
                     <button onClick={() => getStatistic()} className="btn btn-primary col-1" style={{height: "50px", minWidth:"100px"}}>Статистика</button>
                 </div>
 
-                <div className="overflow-y-scroll overflow-x-hidden" style={{height: "700px"}}>
+                <div className="overflow-y-scroll overflow-x-hidden">
                     <table className="table table-hover table-bordered table-striped">
                         <thead>
                             <tr>
