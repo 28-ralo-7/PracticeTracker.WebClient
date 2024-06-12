@@ -129,4 +129,40 @@ export class PracticeService {
 			return Result.EmptyFailed();
 		}
 	}
+
+	public static async uploadContract(formData: FormData, logId: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/UploadContract`, formData,
+			{
+				params: {logId: logId},
+				withCredentials: true,
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
+	public static async uploadReport(formData: FormData, logId: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/UploadReport`, formData,
+			{
+				params: {logId: logId},
+				withCredentials: true,
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
 }
