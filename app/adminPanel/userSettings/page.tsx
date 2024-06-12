@@ -129,7 +129,7 @@ export default function UserSettingsPage() {
 
 	async function saveUser(){
 		if (!isStudent()){
-			changeSelectedUserProperty(null, 'groupId')
+			changeSelectedUserProperty(null, 'groupId');
 		}
 
 		const result = await UserService.saveUser(selectedUser);
@@ -163,12 +163,21 @@ export default function UserSettingsPage() {
 		}));
 	}
 
+	function changeSelectedUserRole(value: string | null){
+		setSelectedUser(prevUser => ({
+			...prevUser,
+			groupId: groupOptions[0].value,
+			roleId: value
+		}));
+	}
+
 	function isStudent(){
 		return selectedUser?.roleId == "3";
 	}
 
 	return (
 		<div className="mt-2">
+			<ReactNotifications/>
 			<div className="m-3 w-100 justify-content-evenly position-sticky">
 				<h2 style={{ position: 'sticky', top: 0, backgroundColor: 'white'}}>Пользователи</h2>
 				<button className="btn btn-primary position-absolute"
@@ -291,8 +300,8 @@ export default function UserSettingsPage() {
 						<div className="d-flex">
 							<div className="mb-3 mx-2 w-50">
 								<label className="form-label">Роль</label>
-								<select className="form-select" value={selectedUser?.roleId || ""}
-										onChange={(e) => changeSelectedUserProperty(e.target.value, 'roleId')}>
+								<select className="form-select" value={selectedUser?.roleId || ""} disabled={selectedUser.id != null}
+										onChange={(e) => changeSelectedUserRole(e.target.value)}>
 									{
 										roleOptions?.map(role =>
 											<option key={role?.value} value={role?.value}>{role?.label}</option>)

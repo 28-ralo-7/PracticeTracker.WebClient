@@ -165,4 +165,22 @@ export class PracticeService {
 			return Result.EmptyFailed();
 		}
 	}
+
+	public static async downloadContract(logId: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/DownloadContract`, null,
+			{
+				params: {logId: logId},
+				withCredentials: true,
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
 }

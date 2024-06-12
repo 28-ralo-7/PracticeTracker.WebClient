@@ -13,8 +13,6 @@ import styles from './scss/style.module.scss';
 
 export default function PracticePage() {
 
-    const dataArray = new FormData();
-
     const router = useRouter();
     const practiceid = new URLSearchParams(window.location.search).get('practiceid')
     const [statisticModalIsOpen, setStatisticModalIsOpen] = useState(false);
@@ -22,6 +20,7 @@ export default function PracticePage() {
     const [practice, setPractice] = useState<PracticeLogView>(PracticeLogView.Empty);
     const [companies, setCompanies] = useState<Item[]>([]);
     const [companiesStatistic, setCompaniesStatistic] = useState<Item[]>([]);
+    const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
 
     useEffect(() => {
         loadData();
@@ -59,11 +58,13 @@ export default function PracticePage() {
         setStatisticModalIsOpen(true);
     }
 
-    function openContractActionModal(){
+    function openContractActionModal(logId: string){
+        setSelectedLogId(logId);
         setContractActionModalIsOpen(true);
     }
 
     function closeContractActionModal(){
+        setSelectedLogId(null);
         setContractActionModalIsOpen(false);
     }
 
@@ -99,6 +100,7 @@ export default function PracticePage() {
 
         if (result.isSuccess){
             Notification("Договор прикреплен", "success");
+            closeContractActionModal();
             loadData();
         }
         else {
@@ -119,6 +121,10 @@ export default function PracticePage() {
         else {
            result.errors.map(error => Notification(error, "danger"));
         }
+    }
+
+    async function handleOnClickDownloadContract(){
+        const contract = PracticeService.downloadContract(selectedLogId!);
     }
 
     return (
@@ -176,10 +182,14 @@ export default function PracticePage() {
                                     </td>
                                     <td>
                                         {
+                                            log.contract != null
+                                            ?
+                                            <button className="btn btn-primary" onClick={() => openContractActionModal(log.id)}>Договор</button>
+                                            :
                                             <label className={styles.inputFile}>
                                                 <input type="file" name="file"
                                                        onChange={(e) =>  handleOnUploadContract(e.target.files!, log.id)}/>
-                                                <span>Загрузить</span>
+                                                <span>Прикрепить</span>
                                             </label>
                                         }
 
@@ -189,7 +199,7 @@ export default function PracticePage() {
                                             <label className={styles.inputFile}>
                                                 <input type="file" name="file"
                                                        onChange={(e) =>  handleOnUploadReport(e.target.files!, log.id)}/>
-                                                <span>Загрузить</span>
+                                                <span>Прикрепить</span>
                                             </label>
                                         }
                                     </td>
@@ -232,7 +242,15 @@ export default function PracticePage() {
                     <CModalTitle>Выберите действие</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-
+                    <div className="d-flex w-100 justify-content-around">
+                        <button className="btn btn-success" onClick={()=>handleOnClickDownloadContract()}>Скачать</button>
+                        <label className={styles.inputFile}>
+                            <input type="file" name="file"
+                                   onChange={(e) =>  handleOnUploadContract(e.target.files!, selectedLogId!)}/>
+                            <span>Прикрепить</span>
+                        </label>
+                        <button className="btn btn-danger" onClick={()=>{}}>Удалить</button>
+                    </div>
                 </CModalBody>
                 <CModalFooter>
                     <CButton onClick={closeContractActionModal} color="primary">Закрыть</CButton>

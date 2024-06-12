@@ -186,6 +186,7 @@ export default function DirectoriesPage() {
 
     return (
         <div className="row overflow-y-scroll overflow-x-hidden">
+            <ReactNotifications />
             <div className="col">
                 <div className="m-3 w-100 justify-content-evenly position-sticky">
                     <h2 style={{ position: 'sticky', top: 0, backgroundColor: 'white'}}>
