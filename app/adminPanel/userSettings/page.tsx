@@ -218,7 +218,7 @@ export default function UserSettingsPage() {
 					</select>
 				</div>
 			</div>
-			<div className="overflow-y-scroll overflow-x-hidden  mt-4" style={{height: "500px"}}>
+			<div className="overflow-y-scroll overflow-x-hidden  mt-4" style={{height: "450px"}}>
 				<table className="table table-hover table-bordered table-striped">
 					<thead>
 					<tr>
