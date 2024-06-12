@@ -263,7 +263,7 @@ export default function DirectoriesPage() {
                     </button>
                 </div>
                 <div className="overflow-y-scroll overflow-x-hidden"
-                     style={{height: "750px"}}>
+                     style={{height: "500px"}}>
                     <table className="table table-hover table-bordered table-striped">
                         <thead>
                         <tr>
@@ -320,7 +320,7 @@ export default function DirectoriesPage() {
                     </button>
                 </div>
                 <div className="overflow-y-scroll overflow-x-hidden"
-                     style={{height: "750px"}}>
+                     style={{height: "500px"}}>
                     <table className="table table-hover table-bordered">
                         <thead>
                         <tr>
