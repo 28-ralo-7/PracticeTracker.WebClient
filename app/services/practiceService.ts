@@ -168,19 +168,41 @@ export class PracticeService {
 
 	public static async downloadContract(logId: string) {
 		try {
-			let result = await axios.post(`http://localhost:5018/Practice/DownloadContract`, null,
-			{
-				params: {logId: logId},
+			const response = await axios.post('http://localhost:5018/Practice/DownloadContract', null, {
+				params: { logId: logId },
+				responseType: 'blob',
 				withCredentials: true,
-				headers: {
-					"Content-Type": "multipart/form-data"
-				}
+			});
+			debugger
+			const a = response.headers;
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', response.data);
+			document.body.appendChild(link);
+			link.click(); // Имитируем клик для начала скачивания
+			document.body.removeChild(link); // Удаляем элемент <a> после скачивания файла
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	public static async downloadReport(logId: string) {
+		try {
+			const response = await axios.post('http://localhost:5018/Practice/DownloadContract', null, {
+				params: { logId: logId },
+				withCredentials: true
 			});
 
-			return result.data as Result;
-		}
-		catch {
-			return Result.EmptyFailed();
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', response.data);
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+		} catch (error) {
+			console.error('Failed to download file:', error);
 		}
 	}
 }

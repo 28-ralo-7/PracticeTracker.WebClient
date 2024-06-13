@@ -17,6 +17,7 @@ export default function PracticePage() {
     const practiceid = new URLSearchParams(window.location.search).get('practiceid')
     const [statisticModalIsOpen, setStatisticModalIsOpen] = useState(false);
     const [contractActionModalIsOpen, setContractActionModalIsOpen] = useState(false);
+    const [reportActionModalIsOpen, setReportActionModalIsOpen] = useState(false);
     const [practice, setPractice] = useState<PracticeLogView>(PracticeLogView.Empty);
     const [companies, setCompanies] = useState<Item[]>([]);
     const [companiesStatistic, setCompaniesStatistic] = useState<Item[]>([]);
@@ -64,6 +65,17 @@ export default function PracticePage() {
     }
 
     function closeContractActionModal(){
+        setSelectedLogId(null);
+        setContractActionModalIsOpen(false);
+    }
+
+
+    function openReportActionModal(logId: string){
+        setSelectedLogId(logId);
+        setContractActionModalIsOpen(true);
+    }
+
+    function closeReportActionModal(){
         setSelectedLogId(null);
         setContractActionModalIsOpen(false);
     }
@@ -116,15 +128,20 @@ export default function PracticePage() {
 
         if (result.isSuccess){
             Notification("Отчёт прикреплен", "success");
+            closeReportActionModal();
             loadData();
         }
         else {
-           result.errors.map(error => Notification(error, "danger"));
+            result.errors.map(error => Notification(error, "danger"));
         }
     }
 
     async function handleOnClickDownloadContract(){
         const contract = PracticeService.downloadContract(selectedLogId!);
+    }
+
+    async function handleOnClickDownloadReport(){
+        const contract = PracticeService.downloadReport(selectedLogId!);
     }
 
     return (
@@ -139,21 +156,21 @@ export default function PracticePage() {
                     <button onClick={() => getStatistic()} className="btn btn-primary col-1" style={{height: "50px", minWidth:"100px"}}>Статистика</button>
                 </div>
 
-                <div className="overflow-y-scroll overflow-x-hidden">
+                <div className="overflow-y-scroll overflow-x-hidden" style={{maxHeight: "500px"}}>
                     <table className="table table-hover table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th></th>
-                                <th>Студент</th>
-                                <th>Оценка</th>
-                                <th>Предприятие</th>
-                                <th>Договор</th>
-                                <th>Отчёт</th>
-                            </tr>
+                        <tr>
+                            <th></th>
+                            <th>Студент</th>
+                            <th>Оценка</th>
+                            <th>Предприятие</th>
+                            <th>Договор</th>
+                            <th>Отчёт</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {
-                                practice.logItems.map((log, index) =>
+                        {
+                            practice.logItems.sort((a,b) => a.name.localeCompare(b.name)).map((log, index) =>
                                 <tr key={log.id}>
                                     <td width={1}>{index+1}</td>
                                     <td width={500}>{log.name}</td>
@@ -183,29 +200,34 @@ export default function PracticePage() {
                                     <td>
                                         {
                                             log.contract != null
-                                            ?
-                                            <button className="btn btn-primary" onClick={() => openContractActionModal(log.id)}>Договор</button>
-                                            :
-                                            <label className={styles.inputFile}>
-                                                <input type="file" name="file"
-                                                       onChange={(e) =>  handleOnUploadContract(e.target.files!, log.id)}/>
-                                                <span>Прикрепить</span>
-                                            </label>
+                                                ?
+                                                <button className="btn btn-primary" onClick={() => openContractActionModal(log.id)}>Договор</button>
+                                                :
+                                                <label className={styles.inputFile}>
+                                                    <input type="file" name="file"
+                                                           onChange={(e) =>  handleOnUploadContract(e.target.files!, log.id)}/>
+                                                    <span>Прикрепить</span>
+                                                </label>
                                         }
 
                                     </td>
                                     <td>
                                         {
-                                            <label className={styles.inputFile}>
-                                                <input type="file" name="file"
-                                                       onChange={(e) =>  handleOnUploadReport(e.target.files!, log.id)}/>
-                                                <span>Прикрепить</span>
-                                            </label>
+
+                                            log.report != null
+                                                ?
+                                                <button className="btn btn-primary" onClick={() => openReportActionModal(log.id)}>Отчёт</button>
+                                                :
+                                                <label className={styles.inputFile}>
+                                                    <input type="file" name="file"
+                                                           onChange={(e) =>  handleOnUploadReport(e.target.files!, log.id)}/>
+                                                    <span>Прикрепить</span>
+                                                </label>
                                         }
                                     </td>
                                 </tr>
-                                )
-                            }
+                            )
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -237,7 +259,7 @@ export default function PracticePage() {
             </CModal>
 
             <CModal visible={contractActionModalIsOpen}
-                    onClose={closeStatisticModal}>
+                    onClose={closeContractActionModal}>
                 <CModalHeader>
                     <CModalTitle>Выберите действие</CModalTitle>
                 </CModalHeader>
@@ -254,6 +276,27 @@ export default function PracticePage() {
                 </CModalBody>
                 <CModalFooter>
                     <CButton onClick={closeContractActionModal} color="primary">Закрыть</CButton>
+                </CModalFooter>
+            </CModal>
+
+            <CModal visible={reportActionModalIsOpen}
+                    onClose={closeReportActionModal}>
+                <CModalHeader>
+                    <CModalTitle>Выберите действие</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <div className="d-flex w-100 justify-content-around">
+                        <button className="btn btn-success" onClick={()=>handleOnClickDownloadReport()}>Скачать</button>
+                        <label className={styles.inputFile}>
+                            <input type="file" name="file"
+                                   onChange={(e) =>  handleOnUploadReport(e.target.files!, selectedLogId!)}/>
+                            <span>Прикрепить</span>
+                        </label>
+                        <button className="btn btn-danger" onClick={()=>{}}>Удалить</button>
+                    </div>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton onClick={closeReportActionModal} color="primary">Закрыть</CButton>
                 </CModalFooter>
             </CModal>
         </div>
