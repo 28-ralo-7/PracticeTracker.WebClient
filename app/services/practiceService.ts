@@ -170,18 +170,23 @@ export class PracticeService {
 		try {
 			const response = await axios.post('http://localhost:5018/Practice/DownloadContract', null, {
 				params: { logId: logId },
-				responseType: 'blob',
 				withCredentials: true,
+				responseType: 'blob',
+				headers: {'accept': '*/*'}
 			});
-			debugger
-			const a = response.headers;
+
+			// @ts-ignore
+			const contentDisposition = response.headers.get('Content-Disposition');
+			const name = this.getFileName(contentDisposition)
+
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', response.data);
+			link.setAttribute('download', name);
 			document.body.appendChild(link);
-			link.click(); // Имитируем клик для начала скачивания
-			document.body.removeChild(link); // Удаляем элемент <a> после скачивания файла
+			link.click();
+			link.remove();
+
 		} catch (error) {
 			console.error(error);
 		}
@@ -204,5 +209,26 @@ export class PracticeService {
 		} catch (error) {
 			console.error('Failed to download file:', error);
 		}
+	}
+
+	public static getFileName(disposition: string): string {
+		const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
+		const asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
+		let fileName: string | null = null;
+		if (utf8FilenameRegex.test(disposition)) {
+			fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)![1]);
+		} else {
+			// prevent ReDos attacks by anchoring the ascii regex to string start and
+			//  slicing off everything before 'filename='
+			const filenameStart = disposition.toLowerCase().indexOf('filename=');
+			if (filenameStart >= 0) {
+				const partialDisposition = disposition.slice(filenameStart);
+				const matches = asciiFilenameRegex.exec(partialDisposition );
+				if (matches != null && matches[2]) {
+					fileName = matches[2];
+				}
+			}
+		}
+		return fileName!;
 	}
 }

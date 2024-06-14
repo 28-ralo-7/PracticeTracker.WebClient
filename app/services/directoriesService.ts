@@ -79,7 +79,7 @@ export class DirectoriesService {
         try {
             let result = await axios.post(`http://localhost:5018/AdminPanel/RemovePractice`,null,{
                 params: {
-                    id: practiceId
+                    practiceId: practiceId
                 },
                 withCredentials: true
             });
