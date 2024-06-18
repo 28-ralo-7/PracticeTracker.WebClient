@@ -76,7 +76,6 @@ export class PracticeService {
 	}
 
 	public static async savePracticeLogGrade(logId: string, grade: string) {
-		debugger
 		try {
 			let result = await axios.post(`http://localhost:5018/Practice/SavePracticeLogGrade`,
 				null,
