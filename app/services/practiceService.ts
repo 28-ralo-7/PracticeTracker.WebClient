@@ -171,21 +171,10 @@ export class PracticeService {
 			const response = await axios.post('http://localhost:5018/Practice/DownloadContract', null, {
 				params: { logId: logId },
 				withCredentials: true,
-				responseType: 'blob',
-				headers: {'accept': '*/*'}
+				responseType: 'blob'
 			});
 
-			// @ts-ignore
-			const contentDisposition = response.headers.get('Content-Disposition');
-			const name = this.getFileName(contentDisposition)
-
-			const url = window.URL.createObjectURL(new Blob([response.data]));
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', name);
-			document.body.appendChild(link);
-			link.click();
-			link.remove();
+			this.downloadFromResponse(response);
 
 		} catch (error) {
 			console.error(error);
@@ -194,32 +183,56 @@ export class PracticeService {
 
 	public static async downloadReport(logId: string) {
 		try {
-			const response = await axios.post('http://localhost:5018/Practice/DownloadContract', null, {
+			const response = await axios.post('http://localhost:5018/Practice/DownloadReport', null, {
 				params: { logId: logId },
-				withCredentials: true
+				withCredentials: true,
+				responseType: 'blob'
 			});
 
-			const url = window.URL.createObjectURL(new Blob([response.data]));
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', response.data);
-			document.body.appendChild(link);
-			link.click();
-			link.remove();
+			this.downloadFromResponse(response);
+
 		} catch (error) {
-			console.error('Failed to download file:', error);
+			console.error(error);
 		}
 	}
 
-	public static getFileName(disposition: string): string {
+	public static async removeContract(logId: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/RemoveContract`, null,
+				{
+					params: {logId: logId},
+					withCredentials: true
+				});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
+	public static async removeReport(logId: string) {
+		try {
+			let result = await axios.post(`http://localhost:5018/Practice/RemoveReport`, null,
+				{
+					params: {logId: logId},
+					withCredentials: true
+				});
+
+			return result.data as Result;
+		}
+		catch {
+			return Result.EmptyFailed();
+		}
+	}
+
+	private static getFileName(disposition: string): string {
 		const utf8FilenameRegex = /filename\*=UTF-8''([\w%\-\.]+)(?:; ?|$)/i;
 		const asciiFilenameRegex = /^filename=(["']?)(.*?[^\\])\1(?:; ?|$)/i;
 		let fileName: string | null = null;
 		if (utf8FilenameRegex.test(disposition)) {
 			fileName = decodeURIComponent(utf8FilenameRegex.exec(disposition)![1]);
 		} else {
-			// prevent ReDos attacks by anchoring the ascii regex to string start and
-			//  slicing off everything before 'filename='
 			const filenameStart = disposition.toLowerCase().indexOf('filename=');
 			if (filenameStart >= 0) {
 				const partialDisposition = disposition.slice(filenameStart);
@@ -230,5 +243,19 @@ export class PracticeService {
 			}
 		}
 		return fileName!;
+	}
+
+	private static downloadFromResponse(response: any){
+		// @ts-ignore
+		const contentDisposition = response.headers.get('Content-Disposition');
+		const name = this.getFileName(contentDisposition)
+
+		const url = window.URL.createObjectURL(new Blob([response.data]));
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', name);
+		document.body.appendChild(link);
+		link.click();
+		link.remove();
 	}
 }

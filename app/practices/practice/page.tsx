@@ -72,12 +72,12 @@ export default function PracticePage() {
 
     function openReportActionModal(logId: string){
         setSelectedLogId(logId);
-        setContractActionModalIsOpen(true);
+        setReportActionModalIsOpen(true);
     }
 
     function closeReportActionModal(){
         setSelectedLogId(null);
-        setContractActionModalIsOpen(false);
+        setReportActionModalIsOpen(false);
     }
 
     function getStatistic() {
@@ -137,11 +137,25 @@ export default function PracticePage() {
     }
 
     async function handleOnClickDownloadContract(){
-        const contract = PracticeService.downloadContract(selectedLogId!);
+        await PracticeService.downloadContract(selectedLogId!);
+        closeContractActionModal();
     }
 
     async function handleOnClickDownloadReport(){
-        const contract = PracticeService.downloadReport(selectedLogId!);
+        await PracticeService.downloadReport(selectedLogId!);
+        closeReportActionModal();
+    }
+
+    async function removeContract(){
+        await PracticeService.removeContract(selectedLogId!);
+        closeContractActionModal();
+        loadData();
+    }
+
+    async function removeReport(){
+        await PracticeService.removeReport(selectedLogId!);
+        closeReportActionModal();
+        loadData();
     }
 
     return (
@@ -271,12 +285,9 @@ export default function PracticePage() {
                                    onChange={(e) =>  handleOnUploadContract(e.target.files!, selectedLogId!)}/>
                             <span>Прикрепить</span>
                         </label>
-                        <button className="btn btn-danger" onClick={()=>{}}>Удалить</button>
+                        <button className="btn btn-danger" onClick={()=>removeContract()}>Удалить</button>
                     </div>
                 </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={closeContractActionModal} color="primary">Закрыть</CButton>
-                </CModalFooter>
             </CModal>
 
             <CModal visible={reportActionModalIsOpen}
@@ -292,12 +303,9 @@ export default function PracticePage() {
                                    onChange={(e) =>  handleOnUploadReport(e.target.files!, selectedLogId!)}/>
                             <span>Прикрепить</span>
                         </label>
-                        <button className="btn btn-danger" onClick={()=>{}}>Удалить</button>
+                        <button className="btn btn-danger" onClick={()=> removeReport()}>Удалить</button>
                     </div>
                 </CModalBody>
-                <CModalFooter>
-                    <CButton onClick={closeReportActionModal} color="primary">Закрыть</CButton>
-                </CModalFooter>
             </CModal>
         </div>
     );
